@@ -1,6 +1,10 @@
 <?php
 
-    class DatabaseControl{
+    namespace databases;
+
+    use databases\DatabaseInterfaces\DatabaseInterface;
+
+    class DatabaseControl implements DatabaseInterface{
      
         // Properti untuk koneksi database
         protected $host = 'localhost';
@@ -11,7 +15,7 @@
         public $connect = null;
 
         public function __construct(){
-            $this->connect = new mysqli($this->host, $this->user, $this->password, $this->database);
+            $this->connect = new \mysqli($this->host, $this->user, $this->password, $this->database);
             if($this->connect->connect_error){
                 echo 'Error : '.$this->connect->connect_error;
             }
@@ -29,7 +33,7 @@
             }
         }
 
-        public function getDB(){
+        public function getConnection(){
             return $this->connect;
         }
 

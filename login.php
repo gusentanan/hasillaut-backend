@@ -1,31 +1,53 @@
 <?php
 
-require_once "databases/DatabaseConnection.php";
-require_once "lib/auth/auth.php";
+    require_once('./loader.php');
 
-$db = new DatabaseControl();
-$db_con = $db->getDB();
+    use databases\DatabaseControl;
+    use lib\admin\AdminAuth;
+    use lib\users\UserAuth;
+    use lib\users\UserData;
+    use lib\admin\AdminData;
 
-$user = new Authentication($db_con);
+    $db = new DatabaseControl();
 
-if ($user->isLoggedIn()) {
-    header("location: index.php"); //redirect ke index 
+    $userData = new UserData($db);
+    $adminData = new AdminData($db);
+    $user = new UserAuth($userData);
+    $admin = new AdminAuth($adminData);
 
-}
+    if ($user->isLoggedIn()) {
+        header("location: index.php"); //redirect ke index 
 
-
-if (isset($_POST['just_do_it'])){
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $user_con = $user->login($email, $password);
-
-    if ($user_con){
-        header("location: index.php");
-
-    } else {
-        $error = $user->getLastError();
     }
-}
+
+    if (isset($_POST['just_do_it'])){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $userValidation = $userData->getUserUsername($username);
+        $adminValidation = $adminData->getAdminUsername($username);
+
+        if($userValidation){
+            $user_con = $user->login($username, $password);
+            if($user_con){
+                header("location: index.php");
+            }
+            else{
+                $error = $user->getLastError();
+            }
+        }
+        else if($adminValidation){
+            $admin_con = $admin->login($username, $password);
+            if($admin_con){
+                header("location: index.php");
+            }
+            else{
+                $error = $admin->getLastError();
+            }
+        }
+        else{
+            $error = "Username dan Password Anda Salah!";
+        }
+    }
 
 ?>
 
@@ -48,8 +70,8 @@ if (isset($_POST['just_do_it'])){
 
                 <?php endif; ?>
 
-                <input type="email" name="email" placeholder="email" required />
-                <input type="password" name="password" placeholder="password" required />
+                <input type="username" name="username" placeholder="Username atau Email" required />
+                <input type="password" name="password" placeholder="Password" required />
                 <button type="submit" name="just_do_it">login</button>
                 <p class="message">Not registered? <a href="register.php">Create an account</a></p>
 

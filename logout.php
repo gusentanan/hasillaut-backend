@@ -1,14 +1,16 @@
 <?php
-   require_once "databases/DatabaseConnection.php"; 
-   require_once "lib/auth/auth.php";
-    // Logout! hapus session user 
 
-
-
+    require_once('./loader.php');
+    
+    use databases\DatabaseControl;
+    use lib\users\UserAuth;
+    use lib\users\UserData;
+    
     $db = new DatabaseControl();
-    $db_con = $db->getDB();
-
-    $user = new Authentication($db_con);
+    
+    $userData = new UserData($db);
+    
+    $user = new UserAuth($userData);
     
     $user->logout();
 

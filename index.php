@@ -1,21 +1,33 @@
 <?php  
 
-    require_once "databases/DatabaseConnection.php";
-    require_once "lib/auth/auth.php";
+  require_once('./loader.php');
 
-    $db = new DatabaseControl();
-    $db_con = $db->getDB();
+  use databases\DatabaseControl;
+  use lib\admin\AdminAuth;
+  use lib\users\UserAuth;
+  use lib\users\UserData;
+  use lib\admin\AdminData;
 
-    $user = new Authentication($db_con);
+  $db = new DatabaseControl();
 
-    if(!$user->isLoggedIn()){ 
+  $userData = new UserData($db);
+  $adminData = new AdminData($db);
 
-      header("location: login.php"); //Redirect ke halaman login 
+  $user = new UserAuth($userData);
+  $admin = new AdminAuth($adminData);
 
-    } 
 
-    // Ambil data user saat ini 
-    $currentUser = $user->getUserData(); 
+      if(!$user->isLoggedIn()){ 
+
+        header("location: login.php"); //Redirect ke halaman login 
+
+      } 
+
+      // Ambil data user saat ini 
+      $currentUser = $user->getUserData();
+      if($currentUser == false){
+        $currentUser = $admin->getAdminData();
+      }
 
   ?> 
 
@@ -32,7 +44,7 @@
        <div class="info"> 
         
         <?php if (isset($currentUser['admin_id'])): ?>
-          <h1>Selamat datang <?php echo $currentUser['username_admin'] ?></h1> 
+          <h1>Selamat datang Admin <?php echo $currentUser['username_admin'] ?></h1> 
         <?php else: ?>
           <h1>Selamat datang <?php echo $currentUser['first_name'] ?></h1> 
         <?php endif; ?>

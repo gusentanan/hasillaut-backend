@@ -1,30 +1,34 @@
 <?php
-    require_once "databases/DatabaseConnection.php";
-    require_once "lib/auth/auth.php";
+
+  require_once('./loader.php');
+      
+  use databases\DatabaseControl;
+  use lib\users\UserAuth;
+  use lib\users\UserData;
+
+  $db = new DatabaseControl();
+
+  $userData = new UserData($db);
+
+  $user = new UserAuth($userData);
 
 
-    $db = new DatabaseControl();
-    $db_con = $db->getDB();
+      if(isset($_POST['register'])){
+          $username = $_POST["username"];
+          $email = $_POST['email'];
+          $password = $_POST['password'];
+          $first_name = $_POST['first_name'];
+          $last_name = $_POST['last_name'];
 
-    $user = new Authentication($db_con);
+          $user_con = $user->register($username, $email, $password, $first_name, $last_name);
 
-
-    if(isset($_POST['register'])){
-        $username = $_POST["username"];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-
-        $user_con = $user->register($username, $email, $password, $first_name, $last_name);
-
-        if($user_con){
-            $success = true;
-        }
-        else{
-            $error = $user->getLastError();
-        }
-    }
+          if($user_con){
+              $success = true;
+          }
+          else{
+              $error = $userData->getLastError();
+          }
+      }
 
 ?>
 
@@ -52,11 +56,12 @@
           <div class="success"> 
             Berhasil mendaftar. Silakan <a href="login.php">login</a>. 
           </div> 
-        <?php endif; ?> 
+        <?php endif; ?>
+ 
 
          <input type="text" name="username" placeholder="username" required/> 
-         <input type="text" name="first_name" placeholder="first_name" required/> 
-         <input type="text" name="last_name" placeholder="last_name" required/> 
+         <input type="text" name="first_name" placeholder="first name" required/> 
+         <input type="text" name="last_name" placeholder="last name" required/> 
          <input type="email" name="email" placeholder="email address" required/> 
          <input type="password" name="password" placeholder="password" required/> 
          <button type="submit" name="register">create</button> 

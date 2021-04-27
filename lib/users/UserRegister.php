@@ -2,9 +2,9 @@
 
     namespace lib\users;
 
-    use lib\users\UserInterfaces\InUserCredentials;
+    use lib\users\UserInterfaces\InUserRegister;
 
-    class UserCredentials implements InUserCredentials{
+    class UserRegister implements InUserRegister{
 
         private $email;
         private $password;

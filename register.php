@@ -39,7 +39,7 @@
    <head> 
      <meta charset="utf-8"> 
      <title>Register</title> 
-     <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8"> 
+     <link rel="stylesheet" href="styles/style.css" media="screen" title="no title" charset="utf-8"> 
    </head> 
    <body> 
      <div class="login-page"> 

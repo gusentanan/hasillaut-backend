@@ -37,7 +37,7 @@
    <head> 
      <meta charset="utf-8"> 
      <title>Home</title> 
-     <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8"> 
+     <link rel="stylesheet" href="styles/style.css" media="screen" title="no title" charset="utf-8"> 
    </head> 
    <body> 
      <div class="container"> 
@@ -47,6 +47,7 @@
           <h1>Selamat datang Admin <?php echo $currentUser['username_admin'] ?></h1> 
         <?php else: ?>
           <h1>Selamat datang <?php echo $currentUser['first_name'] ?></h1> 
+          <a href="userProfile.php"><button type="button">Profile</button></a> 
         <?php endif; ?>
 
        </div> 

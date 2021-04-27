@@ -21,7 +21,7 @@
         public function register(string $username, string $email, string $password, string $first_name, string $last_name)
         {
             $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
-            $user = new UserCredentials($email, $hashed_pwd, $username, $first_name, $last_name);
+            $user = new UserRegister($email, $hashed_pwd, $username, $first_name, $last_name);
             $result = $this->userInsert->InsertData($user);
 
             return $result;

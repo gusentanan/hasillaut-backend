@@ -2,7 +2,7 @@
 
     namespace lib\users\UserInterfaces;
 
-    interface InUserCredentials{
+    interface InUserRegister{
         public function getEmail();
         public function setEmail(string $email);
         public function getPassword();

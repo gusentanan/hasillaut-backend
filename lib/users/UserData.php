@@ -5,7 +5,7 @@
     use databases\DatabaseControl;
     use lib\users\UserInterfaces\InUserData;
     use lib\admin\AdminData;
-    use lib\users\UserUpdate;
+    use lib\users\UserUpdateBase;
 
     class UserData implements InUserData{
         private $db;
@@ -17,10 +17,12 @@
         function __construct(DatabaseControl $database)
         {
             $this->db = $database;
-            session_start();
+            if(session_status() == PHP_SESSION_NONE){
+                session_start();
+            }
         }
 
-        public function InsertData(UserRegister $userBaseData)
+        public function InsertData(UserRegisterBase $userBaseData)
         {
             $this->userBaseData = $userBaseData;
             $this->admins = new AdminData($this->db);
@@ -34,7 +36,7 @@
                 $first_name = $this->userBaseData->get_firstName();
                 $last_name = $this->userBaseData->get_lastName();
 
-                $userValidation = $this->getUserUsername($username);
+                $userValidation = $this->getUserByUsername($username);
                 $adminValidation = $this->admins->getAdminUsername($username);
 
                 if($username != $userValidation['username'] && $username != $adminValidation['username_admin']){
@@ -56,7 +58,7 @@
         }
         
  
-        public function UpdateDataProfile(UserUpdate $userData)
+        public function UpdateDataProfile(UserUpdateBase $userData)
         {
             $this->userData = $userData;
             try{
@@ -69,10 +71,13 @@
                 $kota = $this->userData->getKota();
                 $provinsi = $this->userData->getProvinsi();
                 $kodepos = $this->userData->getKodepos();
+                $first_name = $this->userData->getFirstName();
+                $last_name = $this->userData->getLastName();
+                $email = $this->userData->getEmail();
 
 
-                $stmt = $conn->prepare("UPDATE users SET foto=?, no_hp=?, alamat=?, kota=?, provinsi=?, kodepos=? WHERE user_id=?");
-                $stmt->bind_param("ssssssi", $foto, $no_hp, $alamat, $kota, $provinsi, $kodepos, $currentUser);
+                $stmt = $conn->prepare("UPDATE users SET foto=?, no_hp=?, alamat=?, kota=?, provinsi=?, kodepos=?, first_name=?, last_name=?, email=? WHERE user_id=?");
+                $stmt->bind_param("sssssssssi", $foto, $no_hp, $alamat, $kota, $provinsi, $kodepos, $first_name, $last_name, $email, $currentUser);
                 $stmt->execute();
 
                 return true;
@@ -83,7 +88,7 @@
             }
         }
 
-        public function getUserId(int $id)
+        public function getUserById(int $id)
         {
             try{
                 $conn = $this->db->getConnection();
@@ -106,7 +111,7 @@
             }
         }
 
-        public function getUserUsername(string $username)
+        public function getUserByUsername(string $username)
         {
             try{
                 $conn = $this->db->getConnection();

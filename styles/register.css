@@ -1,0 +1,29 @@
+.container {
+    width: 60%;
+    margin-top: 5%;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.3);
+    padding: 40px;
+    border-radius: 15px;
+}
+.container .btn {
+    background-color: #4ADEDE;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 9%;
+    width: 100%;
+}
+a{
+    font-family: 'Poppins', sans-serif;
+    margin-top: 7%;
+    color: #4ADEDE;
+}
+h4 {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 7%;
+    color: #646464;
+}
+label {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 5%;
+    color: #646464;
+}

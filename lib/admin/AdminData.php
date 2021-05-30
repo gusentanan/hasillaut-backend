@@ -13,6 +13,9 @@
         function __construct(DatabaseControl $db)
         {
             $this->database = $db;
+            if(session_status() == PHP_SESSION_NONE){
+                session_start();
+            }
         }
 
         public function getAdminId(int $id)

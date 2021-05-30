@@ -14,117 +14,129 @@
     
       $user = new UserFeature($userData);
 
-      $users = $userData->getUserId($_SESSION['user_session']);
+      $users = $userData->getUserById($_SESSION['user_session']);
 
-      if(isset($_POST['update'])){
-        $no_hp = $_POST['no_hp'];
-        $alamat = $_POST['alamat'];
-        $kota = $_POST['kota'];
-        $provinsi = $_POST['provinsi'];
-        $kodepos = $_POST['kodepos'];
-
-        $file_foto = $_FILES['foto']['name'];
-        $file_dir = $_FILES['foto']['tmp_name'];
-        $file_size = $_FILES['foto']['size'];
-
-        if(empty($file_foto)){
-            $error = "Masukkan File Foto Anda";
-        }
-        else{
-            $upload_dir = 'images/';
-            $ext = strtolower(pathinfo($file_foto, PATHINFO_EXTENSION));
-            $valid_extension = array('jpeg', 'jpg', 'png', 'gif');
-
-            $profile_foto = rand(1000,1000000).".".$ext;
-
-            if(in_array($ext, $valid_extension)){
-                if($file_size < 5000000){
-                    move_uploaded_file($file_dir, $upload_dir.$profile_foto);
-                }
-                else{
-                    $error = "Ukuran foto lebih dari 5 MB";
-                }
-            }else{
-                $error = "Maaf, Ekstensi gambar tidak sesuai (JPG, JPEG, PNG & GIF)";
-            }
-
-            if(!isset($error)){
-                
-                 $update = $user->updateProfile($profile_foto ,$no_hp ,$alamat, $kota, $provinsi, $kodepos);
-                 if($update){
-                    echo "halo";
-                    header("location: userProfile.php");
-                }
-                else{
-                    echo "Update Gagal";
-                }
-            }
-        }
-       
-      }
-
-
+               
 ?>
 
-<html>  
-   <head> 
-     <meta charset="utf-8"> 
-     <title>Register</title>
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-     <link rel="stylesheet" href="styles/style2.css" media="screen" title="no title" charset="utf-8"> 
-   </head> 
-   <body> 
-        <div class="container rounded bg-white mt-5 mb-5">
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/4ecb43dae8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles/ProfilUser.css">
+    
+    <title>HasilLaut</title>
+    <link rel="icon" href="styles/img/Navbar/Logo.png" type="image/icon type">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" id="mainNav">
+      <div class="container-fluid">
+        <div class="navbar-nav me-4" style="margin-left: 3%;">
+          <a href="homePage.php">
+            <img src="styles/img/Navbar/LogoCompany.png" alt="">
+          </a>
+        </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link js-scroll-trigger" href="#kategori">Kategori</a>
+            </li>
+          </ul>
+
+          <form class="ms-4" style="width: 60%; margin-right: 3%;">
+              <div class="input-group">
+                <input type="search" class="form-control" placeholder="Cari Ikan, Udang, Cumi..." aria-label="Search">
+                <a class="btn btn-primary" href="search.html" role="button"><i class="fas fa-search"></i></a>
+              </div>
+          </form>
+
+          <div class="navbar-nav me-4">
+            <a href="manageCart.php">
+              <img class="cart" src="styles/img/Navbar/Keranjang.png" alt="">
+            </a>
+          </div>
+          <div class="navbar-nav me-4">    
+            <a href="logout.php" ><button type="button" class="add-cart">Logout</button></a>     
+            </div>              
+
+          <div class="navbar-nav ms-auto me-4">
+            <a href="userWishlist.php">
+              <img class="wishlist" src="styles/img/Navbar/Wishlist.png" alt="Wishlist">
+            </a>
+          </div>
+
+          <!-- <div class="navbar-nav me-4">
+            <a href="#notification">
+              <img class="notification" src="styles/img/Navbar/Notification.png" alt="Notification">
+            </a>
+          </div> -->
+
+          <div class="navbar-nav" style="margin-right: 3%;">
+            <a href="userProfile.php">
+              <img class="account" src="styles/img/Navbar/Account.png" alt="Account">
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+      <div style="margin-left: 5%;" class="product-info">
+        <div class="container">
             <div class="row">
-                <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="images/<?php echo $users['foto']?>"><span class="font-weight-bold"><?php echo $users['username'] ?></span><span class="text-black-50"><?php echo $users['email']?></span><span> </span></div>
+              <div class="col-md-4">
+                <div style="width: 80%;" class="btn-group-vertical">                
+                <a role="button" href="userProfile.php" style="border-color: #4ADEDE; background-color: #4ADEDE; color: white;  text-align: left; " class="btn"> <i style="width: 7%; height: 50%; margin-top: 2%; margin-left: 1%;" class="fas fa-user-circle fa-lg"></i> Akun Saya</a>
+                <a role="button" href="userHistory.php" style="border-color: #4ADEDE; background-color: white; color: #4ADEDE; margin-top: 4%;   text-align: left;" class="btn"><i style="width: 10%; height: 50%;" class="fas fa-box-open fa-lg"></i>Pesanan</a>
+                <a role="button" href="userWishlist.php" style="border-color: #4ADEDE; background-color: white; color: #4ADEDE; margin-top: 4%;   text-align: left; " class="btn"><i style="width: 10%; height: 50%;" class="far fa-heart fa-lg"></i>Favorit</a>
                 </div>
-                <div class="col-md-5 border-right">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Profile Settings</h4>
-                        </div>
-                        <form class="update-form" method="post" enctype="multipart/form-data">
-                        <?php if (isset($error)) : ?>
-                            <div class="error">
-                                <?php echo $error, $ext ?>
-                                
-                            </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="countainer">
+                      <h4>Akun Saya</h4>
+                      <h6>Profil</h6>
+                      <div class="wrapper">
+                        <img class="circular--square" src="images/<?php echo $users['foto'] ?>"/>
+                      </div>
+                      <h6>Nama</h6>
+                      <p class="card-text fw-bold" style="font-size: 100%;" ><?php echo $users['first_name']; echo " "; echo $users['last_name'];?></p>
+                      <h6>Alamat</h6>
+                      <p class="card-text fw-bold" style="font-size: 100%;" ><?php echo $users['alamat']?></p>
+                      <h6>Nomer</h6>
+                      <p class="card-text fw-bold" style="font-size: 100%;" ><?php echo $users['no_hp']?></p>
+                      <h6>Kota Tinggal</h6>
+                      <p class="card-text fw-bold" style="font-size: 100%;" ><?php echo $users['kota']?></p>
+                      <h6>Provinsi</h6>
+                      <p class="card-text fw-bold" style="font-size: 100%;" ><?php echo $users['provinsi']?></p>
+                      <h6>Kodepos</h6>
+                      <p class="card-text fw-bold" style="font-size: 100%;" ><?php echo $users['kodepos']?></p>
 
-                        <?php endif; ?>
-                            <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Nomor Telepon</label><input type="text" class="form-control" placeholder="Nomor Telepon" name="no_hp" value="<?php echo $users['no_hp']?>"></div>
-                                <div class="col-md-12"><label class="labels">Alamat</label><input type="text" class="form-control" placeholder="Alamat" name="alamat" value="<?php echo $users['alamat']?>"></div>
-                                <!-- <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="<?php echo $users['email']?>" name="email"></div> -->
-                                
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-6"><label class="labels">Kota Tinggal</label><input type="text" class="form-control" placeholder="Kota" name="kota" value="<?php echo $users['kota']?>"></div>
-                                <div class="col-md-6"><label class="labels">Provinsi</label><input type="text" class="form-control" placeholder="Provinsi" name="provinsi" value="<?php echo $users['provinsi']?>"></div>
-                                <div class="col-md-6"><label class="labels">Kodepos</label><input type="text" class="form-control" placeholder="Kodepos" name="kodepos" value="<?php echo $users['kodepos']?>"></div>
-                            </div>
-                            <div class="row-mt-3">
-                                <tr>
-                                <td><label class="control-label">Foto Profile</label></td>
-                                    <td><input class="input-group" type="file" name="foto" accept="image/*" /></td>
-                                </tr>
-                            </div>
-            
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit" name="update">Save Profile</button></div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center experience"><span></span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i><a href="index.php">Home</a></span></div><br>
-                    </div>
-                </div>
+                      <a type="submit" style="border-color: #4ADEDE; background-color:white ; color: #4ADEDE; margin-left: 5%;" class="btn" href="userProfileEdit.php">Ubah Profile Diri</a>
+                     
+                  </div>
+              </div>
             </div>
-        </div>
-        </div>
-        </div>
+          </div>
+      </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-   </body> 
- </html>  
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

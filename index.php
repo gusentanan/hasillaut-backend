@@ -20,39 +20,19 @@
       if(!$user->isLoggedIn()){ 
 
         header("location: login.php"); //Redirect ke halaman login 
-
+        
       } 
+      else{
+          $currentUser = $user->getUserData();
 
-      // Ambil data user saat ini 
-      $currentUser = $user->getUserData();
-      if($currentUser == false){
-        $currentUser = $admin->getAdminData();
+          if($currentUser){
+            header("location: homePage.php");
+          }
+          else{
+            header("location: adminPage.php");
+          }
       }
+
 
   ?> 
 
- <!DOCTYPE html>  
-
- <html>  
-   <head> 
-     <meta charset="utf-8"> 
-     <title>Home</title> 
-     <link rel="stylesheet" href="styles/style.css" media="screen" title="no title" charset="utf-8"> 
-   </head> 
-   <body> 
-     <div class="container"> 
-       <div class="info"> 
-        
-        <?php if (isset($currentUser['admin_id'])): ?>
-          <h1>Selamat datang Admin <?php echo $currentUser['username_admin'] ?></h1> 
-        <?php else: ?>
-          <h1>Selamat datang <?php echo $currentUser['first_name'] ?></h1> 
-          <a href="userProfile.php"><button type="button">Profile</button></a> 
-        <?php endif; ?>
-
-       </div> 
-       <a href="logout.php"><button type="button">Logout</button></a> 
-     </div> 
-   </body> 
-
- </html>  

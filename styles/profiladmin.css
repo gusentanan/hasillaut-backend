@@ -1,0 +1,72 @@
+/* Style Navbar */
+.navbar {
+    color: #4ADEDE;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.05);
+}
+.navbar .input-group .btn{
+    background-color: rgba(255, 255, 255, 0.425);
+    border-color: rgb(207, 207, 207);
+}
+.navbar .fas{
+    color: #4ADEDE;
+}
+.navbar .cart {
+    width: 111px;
+    height: 37px;
+}
+.navbar .wishlist {
+    width: 25px;
+    height: 25px;
+}
+.navbar .notification {
+    width: 25px;
+    height: 25px;
+}
+.navbar .account {
+    width: 25px;
+    height: 25px;
+}
+.product-info {
+    margin-top: 8%;
+}
+.countainer {
+    width: 100%;
+    height: 500%;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.3);
+    padding: 25px;
+    border-radius: 15px;
+}
+h4 {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 3%;
+    color: #7F7F7F;
+    padding-left: 5%;
+}
+h5 {
+    font-family: 'Poppins', sans-serif;
+    color: #7F7F7F;
+    margin-top: 3%;
+    padding-left: 10%;
+    line-height: 1.5;
+}
+h6 {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 3%;
+    color: #7F7F7F;
+    padding-left: 5%;
+}
+p {
+    font-family: 'Poppins', sans-serif;
+    color: #646464;
+    padding-left: 5%;
+}
+button {
+    font-family: 'Poppins', sans-serif;
+}
+.countainer .btn{
+    font-family: 'Poppins', sans-serif;
+}
+
+.circular--square {
+  border-radius: 50%;
+}

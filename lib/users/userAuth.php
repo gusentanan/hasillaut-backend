@@ -21,7 +21,7 @@
         public function register(string $username, string $email, string $password, string $first_name, string $last_name)
         {
             $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
-            $user = new UserRegister($email, $hashed_pwd, $username, $first_name, $last_name);
+            $user = new UserRegisterBase($email, $hashed_pwd, $username, $first_name, $last_name);
             $result = $this->userInsert->InsertData($user);
 
             return $result;
@@ -29,7 +29,7 @@
 
         public function login(string $username, string $password)
         {
-            $verify_user = $this->userInsert->getUserUsername($username);
+            $verify_user = $this->userInsert->getUserByUsername($username);
 
             if($verify_user != false){
 
@@ -69,7 +69,7 @@
                 return false;
             }
             $user = $_SESSION['user_session'];
-            $res = $this->userInsert->getUserId($user);
+            $res = $this->userInsert->getUserById($user);
             if($user == $res['user_id']){
                 return $res;
             }
